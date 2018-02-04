@@ -1,0 +1,63 @@
+- hosts: dev
+  become: true
+  remote_user: vagrant
+  vars:
+    - pack: "httpd"
+    - dirs: ['dir1','dir2','dir3']
+    - mdir:
+        - { dirname: 'test1', filename: 'index.html' }
+        - { dirname: 'test2', filename: 'index.html' }
+        - { dirname: 'test3', filename: 'index.html' }
+
+  tasks:
+    -  name: installing apache
+       yum:
+         name: "{{ pack }}"
+         state: "installed"
+
+    -  name: copying html
+       copy:
+         src: index.html
+         dest: /var/www/html/
+       notify:
+         - "service"
+
+    - name: start
+      service: 
+        name: "httpd"
+        state: "started"
+
+
+    -  name: creating multiple directory
+       file:
+         path: "/var/www/html/{{ item }}"
+         state: directory
+         mode: 755
+       with_items:
+         - "{{ dirs }}"
+
+    - name: files and folder
+      file:
+        path: "/var/www/html/{{ item.dirname }}"
+        state: directory
+        mode: 755
+      with_items:
+        - "{{ mdir }}"
+
+
+    - name: creating files
+      copy:
+        content: |
+             "welcome to dir {{ item.dirname }}"
+        dest: "/var/www/html/{{ item.dirname }}/{{ item.filename }}"
+      with_items:
+        - "{{ mdir }}"
+      
+         
+  handlers:
+    -  name: service
+       service:
+         name: "{{ pack }}"
+         state: "restarted"       
+       tags:
+         - "start"

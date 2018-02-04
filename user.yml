@@ -1,0 +1,10 @@
+- hosts: dev
+  become: true
+  remote_user: vagrant
+
+  tasks:
+    - name: creating user
+      user:
+        name: "praveen"
+        password: '$1$sMeJXlW1$PER.4lC/oVQER7Dsp.MvT.'
+        state: present
