@@ -1,7 +1,10 @@
 [dev]
 node01 ansible_ssh_host=192.168.33.10 ansible_ssh_user=vagrant 
+node02 ansible_ssh_host=192.168.33.10 ansible_ssh_user=vagrant 
 
 [dev:vars]
+files="sam"
+mod="copy"
 a=10
 pack="vim"
 number=7
