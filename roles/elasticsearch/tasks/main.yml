@@ -1,0 +1,33 @@
+---
+# tasks file for elasticsearch
+
+- name: checking download
+  shell: |
+        ls -l /mnt | grep elastic
+  register: result
+
+
+- name: Downloading the rpm
+  get_url:
+    url: https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.3.noarch.rpm
+    dest: /mnt
+  when: "'elastic' not in result.stdout"
+   
+
+- name: installing package
+  shell: |
+       cd /mnt
+       rpm -qa | grep -i elastic || rpm -ivh elasticsearch-1.7.3.noarch.rpm
+      
+
+- name: copying the template
+  template:
+    src: elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+  notify: service 
+
+
+- name: service started
+  shell: | 
+        service elasticsearch start
+  

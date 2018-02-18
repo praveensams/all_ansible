@@ -1,0 +1,37 @@
+---
+# tasks file for webserver
+- name: installing httpd
+  yum:
+    name: "{{ pack }}"
+    state: "installed"
+  
+- name: copying index.html
+  copy:
+    src: "{{ role_path }}/files/index.html"
+    dest: /var/www/html/index.html
+  notify: restart
+
+- name: Copying template
+  template:
+    src: httpd.conf.j2
+    dest: /etc/httpd/conf/httpd.conf
+  notify: restart
+
+- name: adding some more line
+  lineinfile:
+    path: /var/www/html/index.html
+    regexp: '^100'
+    line: 'praveen'
+
+- name: replacing 8
+  replace:
+    path: /var/www/html/index.html
+    regexp: '8'
+    replace: 'eight'
+
+- name: block in file
+  blockinfile:
+    path: /var/www/html/index.html
+    content: |
+        adding few more lne
+    marker: '#### powered by ansibe ######'

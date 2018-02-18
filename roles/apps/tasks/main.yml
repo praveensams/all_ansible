@@ -1,0 +1,39 @@
+---
+# tasks file for apps
+
+- name: installing packages
+  yum:
+   name: "httpd"
+   state: "installed"
+  when: "ansible_os_family == 'RedHat'"
+
+- name: importing other files
+  import_tasks: install.yml
+  when: "load == 'yes'"
+
+- name: checking installation
+  shell: |
+       rpm -qa | grep -i httpd
+  register: result
+  ignore_errors: yes
+
+- name: running block
+  block:
+    - name: modifiying configuration file
+      template:
+        src: "httpd.conf.j2"
+        dest: "/etc/httpd/conf/httpd.conf"
+    
+    - name: copying index.html
+      copy:
+        content: |
+           welcome to ansible
+        dest: /var/www/html/index.html
+    
+    - name: restart
+      service:
+        name: "httpd"
+        state: "restarted"
+  when:  "'http' in result.stdout" 
+  
+    

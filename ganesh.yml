@@ -1,0 +1,36 @@
+- hosts: dev
+  become: true
+  remote_user: vagrant
+  vars:
+    - files:
+        - index.html
+        - index1.html
+
+  tasks:
+  
+    - name: "installing httpd"
+      yum: 
+        name: "httpd"
+        state: "installed"
+
+    - name: "copy index.html {{ item }}"
+      copy:
+        src: "{{ item }}"
+        dest: "/var/www/html/{{ item }}"
+      with_items:
+        - "{{ files }}"
+        
+
+    - name: running a script
+      script: sam.sh
+
+    - name: configuring httpd
+      template:  
+        src: httpd.conf.j2
+        dest: /etc/httpd/conf/httpd.conf
+      
+    - name: service start
+      service:
+        name: "httpd"
+        state: "restarted"
+   

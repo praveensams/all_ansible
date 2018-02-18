@@ -1,0 +1,4 @@
+- name: installing vim
+  yum:
+    name: "vim"
+    state: "installed"

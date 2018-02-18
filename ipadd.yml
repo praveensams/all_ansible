@@ -1,0 +1,25 @@
+- hosts: dev
+  become: true
+  remote_user: vagrant
+
+  tasks:
+
+    - name: cheeking file content
+      command: cat /tmp/sam
+      register: result
+ 
+    - name: inserting a line
+      replace:
+        path: /tmp/sam
+        regexp: '#n'
+        replace: "n"
+      when: {% if a is defined %}
+ 
+    - name: append
+      blockinfile:
+        path: /tmp/sam
+        block: |
+            adding line 1
+                   line 2
+                   line 3
+        marker: "### added through ansible"
