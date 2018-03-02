@@ -1,0 +1,4 @@
+---
+# vars file for suren
+port: 8080
+pack: ['httpd','httpd-tools']

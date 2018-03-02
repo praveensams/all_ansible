@@ -1,0 +1,16 @@
+---
+# tasks file for webapps
+
+- name: "installing httpd"
+  yum:
+    name: "httpd"
+    state: "installed"
+
+- name: index.html
+  copy:
+    src: "index.html"
+    dest: "/var/www/html/index.html"
+  notify: service
+
+
+    

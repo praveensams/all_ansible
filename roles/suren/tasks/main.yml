@@ -1,0 +1,25 @@
+---
+# tasks file for suren
+- name: "installing {{ item }}"
+  yum:
+    name: "{{ item }}"
+    state: "installed"
+  with_items:
+    - "{{ pack }}"
+
+- name: "copying template "
+  template: 
+    src: "httpd.conf.j2"
+    dest: "/etc/httpd/conf/httpd.conf"
+  notify: "apache"
+
+- name: "copying index.html"
+  copy:
+    src: "index.html"
+    dest: "/var/www/html/index.html"
+
+- name: service start
+  service: 
+    name: "{{ pack[0] }}"
+    state: "started"
+    

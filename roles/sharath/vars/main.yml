@@ -1,0 +1,5 @@
+---
+# vars file for sharath
+
+ports: 8080
+pack: ["httpd","httpd-tools"]

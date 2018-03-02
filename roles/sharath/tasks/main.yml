@@ -1,0 +1,25 @@
+---
+# tasks file for sharath
+
+- name: "install {{ item }}"
+  yum:
+    name: "{{ item }}"
+    state: "present"
+  with_items:
+    - "{{ pack }}"
+
+- name: Copying the apache conf file
+  template:
+    src: "httpd.conf.j2"
+    dest: "/etc/httpd/conf/httpd.conf"
+  notify: apache
+
+- name: coping index html
+  copy:
+    src: "index.html"
+    dest: "/var/www/html/index.html"
+
+- name: service start
+  service:
+    name: "{{ pack[0] }}"
+    state: "started"

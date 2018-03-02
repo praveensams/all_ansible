@@ -1,0 +1,24 @@
+---
+# tasks file for ganesh
+- name: installing
+  yum: 
+    name: "httpd"
+    state: "installed"
+  delegate_to: node02
+  tags: install
+
+- name: conf file copy
+  template:
+    src: "httpd.conf.j2"
+    dest: "/etc/httpd/conf/httpd.conf"
+  notify: apache
+  
+
+- name: service start
+  service:
+    name: "httpd"
+    state: "started"
+
+
+
+ 

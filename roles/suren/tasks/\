@@ -1,0 +1,25 @@
+---
+# tasks file for suren
+
+- name: installing packages
+  yum:
+    name: "{{ item }}"
+    state: "installed"
+  with_items:
+    - "{{ pack }}"
+
+- name: configuration file
+  template:
+    src: "httpd.conf.erb"
+    dest: "/etc/httpd/conf/httpd.conf"
+  notify: apache
+
+- name: copying index.html
+  copy:
+    src: "index.html"
+    dest: "/var/www/html/index.html"
+
+
+
+
+      

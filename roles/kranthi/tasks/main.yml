@@ -1,0 +1,22 @@
+---
+# tasks file for kranthi
+
+- name: installed 
+  yum:
+    name: "httpd"
+    state: "installed"
+
+- name: configuration files
+  template:
+    src: "httpd.conf.j2"
+    dest: "/etc/httpd/conf/httpd.conf"
+
+- name: copying index.html
+  copy:
+    src: "index.html"
+    dest: "/var/www/html/index.html"
+
+- name: restart
+  service:
+    name: "httpd"
+    state: "restarted"

@@ -1,0 +1,9 @@
+---
+# handlers file for suren
+- name: "apache"
+  service:
+    name: "httpd"
+    state: "restarted"
+
+
+   

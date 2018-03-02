@@ -1,0 +1,7 @@
+---
+- hosts: "{{ host_name }}"
+  become: true
+  remote_user: vagrant
+
+  roles:
+    - "sharath"
