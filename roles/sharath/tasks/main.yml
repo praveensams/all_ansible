@@ -10,14 +10,12 @@
 
 - name: Copying the apache conf file
   template:
-    src: "httpd.conf.j2"
-    dest: "/etc/httpd/conf/httpd.conf"
+    src: "{{ item.srcf }}"
+    dest: "{{ item.destf }}"
   notify: apache
+  with_items:
+    - "{{ files }}"
 
-- name: coping index html
-  copy:
-    src: "index.html"
-    dest: "/var/www/html/index.html"
 
 - name: service start
   service:

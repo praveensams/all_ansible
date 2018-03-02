@@ -3,3 +3,6 @@
 
 ports: 8080
 pack: ["httpd","httpd-tools"]
+files:
+  - { srcf: "index.html.j2" , destf: "/var/www/html/index.html" } 
+  - { srcf: "httpd.conf.j2" , destf: "/etc/httpd/conf/httpd.conf.j2" } 
