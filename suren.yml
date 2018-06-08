@@ -3,4 +3,4 @@
   remote_user: vagrant
 
   roles: 
-    - suren
+    - "{{ playbooks }}"
